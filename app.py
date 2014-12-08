@@ -1,4 +1,4 @@
-from bottle import *
+from bottle import run, route
 
 @route('/')
 def index():
