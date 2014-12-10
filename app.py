@@ -8,14 +8,22 @@ import sys
 import codecs
 import markdown
 import settings
-
+import os
 
 application = Bottle()
 debug(True)
 
 @application.route('/')
 def index():
-    return jinja2_template('templates/home.html', domain = settings.domain)
+    art = os.listdir('./article')
+    print art
+    return jinja2_template('templates/home.html', domain = settings.domain, users = art)
+
+@application.route('/test')
+def test():
+    
+    return jinja2_template('templates/test.html', domain = settings.domain)
+
 
 @application.route('/static/<filename:path>')
 def static(filename):

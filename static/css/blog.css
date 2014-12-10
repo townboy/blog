@@ -73,7 +73,7 @@ body { width: 620px; margin: 0 auto; padding: 0; }
 /* layout */
 html { overflow-y:scroll; }
 body { 
-	background-image: url('714.jpg'); 
+	background-image: url('./../images/714.jpg'); 
 	background-attachment:fixed;
 	background-repeat: no-repeat;
 	background-position:center;
