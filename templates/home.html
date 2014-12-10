@@ -21,7 +21,7 @@
 		<article>
 			<ol>
 				{% for user in users %}
-				<li><a href = '{{ user|e }}'> go </a></li>
+				<li><a href = "article/{{user[:-3]}}"> {{user[:-3]}} </a></li>
 				{% endfor %}
 			</ol>
 		</article>

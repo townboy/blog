@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>welcome to {{domain}}</title>
-		
+		<base href = {{domain}} >
+
 		<script type="text/javascript" src="static/syntaxhighlighter/scripts/shCore.js"></script>
 		<script type="text/javascript" src="static/syntaxhighlighter/scripts/shBrushPython.js"></script>
 		<script type="text/javascript">SyntaxHighlighter.all();</script>
@@ -15,28 +16,15 @@
 
 	<body>
 		<nav>
-		<a href="/">æ–‡ç« </a>|<a href="/archive.html">å­˜æ¡£</a>|<a href="/album.html">ç›¸å†Œ</a>|<a href="/about.html">å…³äº</a>|<a href="http://weibo.com/u/2170618403">å¾®åš</a>|<a href="https://github.com/townboy">Github</a>|<a href="/feed.xml">è®¢é˜…</a>
+		<a href="/">ÎÄÕÂ</a>|<a href="/archive.html">´æµµ</a>|<a href="/album.html">Ïà²á</a>|<a href="/about.html">¹ØÓÚ</a>|<a href="http://weibo.com/u/2170618403">Î¢²©</a>|<a href="https://github.com/townboy">Github</a>|<a href="/feed.xml">¶©ÔÄ</a>
 		</nav>
 
 		<article>
-
-		<br/>
-		<pre class="brush: python">
-		import sys	
-		print sys
-		def go:
-			pass
-		</pre>
-
-		<br/>
-		
-
-		<br/>
-		<h1>SyntaxHihglighter Test</h1>
-		<p>This is a test file to insure that everything is working well.</p>
-
-
-
+			<ol>
+				{% for user in users %}
+				<li><a href = "article/{{user[:-3]}}"> {{user[:-3]}} </a></li>
+				{% endfor %}
+			</ol>
 		</article>
 
 	</body>
