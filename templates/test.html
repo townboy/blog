@@ -41,3 +41,14 @@
 
 	</body>
 </html>
+
+
+{% extends "templates/base.html" %}
+{% block content %}	
+	<ol>
+		{% for user in users %}
+			<li><a href = "article/{{user[:-3]}}"> {{user[:-3]}} </a></li>
+		{% endfor %}
+	</ol>
+{% endblock %}
+	

@@ -3,8 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<title>welcome to {{domain}}</title>
-		<base href = {{domain}} >
-
+		<base href = "http://{{domain}}/" >
+		<link rel="shortcut icon" href=" /static/images/favicon.ico" /> 
+		
 		<script type="text/javascript" src="static/syntaxhighlighter/scripts/shCore.js"></script>
 		<script type="text/javascript" src="static/syntaxhighlighter/scripts/shBrushPython.js"></script>
 		<script type="text/javascript">SyntaxHighlighter.all();</script>
@@ -16,15 +17,12 @@
 
 	<body>
 		<nav>
-		<a href="/">ÎÄÕÂ</a>|<a href="/archive.html">´æµµ</a>|<a href="/album.html">Ïà²á</a>|<a href="/about.html">¹ØÓÚ</a>|<a href="http://weibo.com/u/2170618403">Î¢²©</a>|<a href="https://github.com/townboy">Github</a>|<a href="/feed.xml">¶©ÔÄ</a>
+		<a href="/">æ–‡ç« </a>|<a href="/archive.html">å­˜æ¡£</a>|<a href="/album.html">ç›¸å†Œ</a>|<a href="/about.html">å…³äº</a>|<a href="http://weibo.com/u/2170618403">å¾®åš</a>|<a href="https://github.com/townboy">Github</a>|<a href="/feed.xml">è®¢é˜…</a>
 		</nav>
 
 		<article>
-			<ol>
-				{% for user in users %}
-				<li><a href = "article/{{user[:-3]}}"> {{user[:-3]}} </a></li>
-				{% endfor %}
-			</ol>
+			{% block content %}
+			{% endblock %}
 		</article>
 
 	</body>
