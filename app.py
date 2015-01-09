@@ -20,8 +20,13 @@ debug(True)
 @application.route('/')
 def index():
     art = os.listdir('./article')
-    return jinja2_template('templates/home.html', domain = settings.domain, users = art)
 
+    give = []
+    for item in art:
+        read = article.article(item)
+        give.append([item, read.read_title() + ' (' + read.read_time() + ')'])
+    
+    return jinja2_template('templates/home.html', domain = settings.domain, users = give)
 
 @application.route('/test')
 def test():
@@ -36,6 +41,11 @@ def func_article(artname):
 @application.route('/static/<filename:path>')
 def static(filename):
     return static_file(filename, root = './static')
+
+@application.route('/aboutme')
+def aboutme():
+    read = article.article('aboutme.md')
+    return read.read()
 
 if __name__ == '__main__':
     run(application, host = settings.host, port = settings.port)

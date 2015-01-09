@@ -1,54 +1,82 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>welcome to {{domain}}</title>
-		
-		<script type="text/javascript" src="static/syntaxhighlighter/scripts/shCore.js"></script>
-		<script type="text/javascript" src="static/syntaxhighlighter/scripts/shBrushPython.js"></script>
-		<script type="text/javascript">SyntaxHighlighter.all();</script>
-
-		<link type="text/css" rel="stylesheet" href="static/syntaxhighlighter/styles/shCoreEclipse.css"/>
-		<link type="text/css" rel="stylesheet" href="static/syntaxhighlighter/styles/shCore.css"/>
-		<link type="text/css" rel="stylesheet" href="static/css/blog.css"/>
-	</head>
-
-	<body>
-		<nav>
-		<a href="/">文章</a>|<a href="/archive.html">存档</a>|<a href="/album.html">相册</a>|<a href="/about.html">关于</a>|<a href="http://weibo.com/u/2170618403">微博</a>|<a href="https://github.com/townboy">Github</a>|<a href="/feed.xml">订阅</a>
-		</nav>
-
-		<article>
-
-		<br/>
+{% extends "templates/base.html" %}
+{% block content %}	
+	<br/>
 		<pre class="brush: python">
 		import sys	
 		print sys
 		def go:
 			pass
 		</pre>
-
-		<br/>
 		
+		<p><img src="static/images/714.jpg" width="600" alt="Map of Angkor" /></p>
 
-		<br/>
-		<h1>SyntaxHihglighter Test</h1>
-		<p>This is a test file to insure that everything is working well.</p>
+<div class="highlight"><pre><span class="c">#!/bin/sh</span>
+<span class="c">#</span>
+<span class="c"># Author:         Xia Kai &lt;xiaket@corp.netease.com/xiaket@gmail.com&gt;</span>
+<span class="c"># Filename:       getbookrating.sh</span>
+<span class="c"># Date created:   2013-08-17 21:40</span>
+<span class="c"># Last modified:  2013-08-17 22:51</span>
+<span class="c">#</span>
+<span class="c"># Description:</span>
+<span class="c">#</span>
+
+<span class="nv">KEY</span><span class="o">=</span><span class="s2">&quot;getyourownkey&quot;</span>
+<span class="nv">IFS</span><span class="o">=</span><span class="s1">$&#39;\n&#39;</span>
+
+<span class="k">for </span>author in <span class="sb">`</span>gls -l | grep <span class="s2">&quot;^d&quot;</span> | cut -c 51-<span class="sb">`</span>
+<span class="k">do</span>
+<span class="k">    for </span>bookdir in <span class="sb">`</span>gls -l ./<span class="s2">&quot;$author&quot;</span> | grep <span class="s2">&quot;^d&quot;</span> | cut -c 44-<span class="sb">`</span>
+&nbsp;   <span class="k">do</span>
+<span class="k">        </span>sleep 1
+&nbsp;       <span class="nv">dir_path</span><span class="o">=</span><span class="s2">&quot;$author/$bookdir&quot;</span>
+&nbsp;       <span class="nv">isbn</span><span class="o">=</span><span class="sb">`</span>grep -i isbn <span class="nv">$dir_path</span>/metadata.opf | egrep -o <span class="s2">&quot;\d+&quot;</span><span class="sb">`</span>
+&nbsp;       <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq 0 <span class="o">]</span>
+&nbsp;       <span class="k">then</span>
+<span class="k">            </span><span class="nv">json</span><span class="o">=</span><span class="sb">`</span>curl --retry 3 <span class="s2">&quot;http://www.goodreads.com/book/review_counts.json?isbns=$isbn&amp;key=$KEY&quot;</span> 2&gt;/dev/null<span class="sb">`</span>
+&nbsp;           <span class="k">if</span> <span class="o">[</span> <span class="nv">$json</span> <span class="o">=</span> <span class="s2">&quot;No books match those ISBNs.&quot;</span> <span class="o">]</span>
+&nbsp;           <span class="k">then</span>
+<span class="k">                </span><span class="nb">echo</span> <span class="s2">&quot;WARN: &quot;</span> <span class="nv">$dir_path</span> <span class="s2">&quot;not found!&quot;</span>
+&nbsp;               <span class="k">continue</span>
+<span class="k">            fi</span>
+<span class="k">            </span><span class="nb">echo</span> <span class="s2">&quot;DEBUG: &quot;</span> <span class="nv">$json</span>
+&nbsp;           <span class="nv">rating</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$json</span> | python -c <span class="s2">&quot;import json, sys; print json.loads(sys.stdin.read())[&#39;books&#39;][0][&#39;average_rating&#39;]&quot;</span><span class="sb">`</span>
+&nbsp;           <span class="nv">count</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$json</span> | python -c <span class="s2">&quot;import json, sys; print json.loads(sys.stdin.read())[&#39;books&#39;][0][&#39;ratings_count&#39;]&quot;</span><span class="sb">`</span>
+&nbsp;           <span class="k">if</span> <span class="o">[</span> <span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;$rating - 4.&quot;</span> | bc | cut -c 1<span class="sb">`</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">]</span>
+&nbsp;           <span class="k">then</span>
+<span class="k">                </span><span class="nb">echo</span> <span class="s2">&quot;WARN: &quot;</span> <span class="nv">$dir_path</span> <span class="nv">$rating</span> <span class="nv">$count</span>
+&nbsp;           <span class="k">else</span>
+<span class="k">                </span><span class="nb">echo</span> <span class="s2">&quot;GOOD: &quot;</span> <span class="nv">$dir_path</span> <span class="nv">$rating</span> <span class="nv">$count</span>
+&nbsp;           <span class="k">fi</span>
+<span class="k">        else</span>
+<span class="k">            </span><span class="nb">echo</span> <span class="s2">&quot;ERROR: book isbn not found:&quot;</span> <span class="nv">$dir_path</span>
+&nbsp;       <span class="k">fi</span>
+<span class="k">    done</span>
+<span class="k">done</span>
+</pre></div>
 
 
+<div class="highlight"><pre><span class="c">#! /usr/bin/evn python</span>
 
-		</article>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jinja2_template</span><span class="p">(</span><span class="s">&#39;templates/test.html&#39;</span><span class="p">,</span> <span class="n">domain</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span>
 
-	</body>
-</html>
+<span class="nd">@application.route</span><span class="p">(</span><span class="s">&#39;/article/&lt;artname&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">func_article</span><span class="p">(</span><span class="n">artname</span><span class="p">):</span>
+    <span class="n">read</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">article</span><span class="p">(</span><span class="n">artname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">read</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
 
-{% extends "templates/base.html" %}
-{% block content %}	
-	<ol>
-		{% for user in users %}
-			<li><a href = "article/{{user[:-3]}}"> {{user[:-3]}} </a></li>
-		{% endfor %}
-	</ol>
+<span class="nd">@application.route</span><span class="p">(</span><span class="s">&#39;/static/&lt;filename:path&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">static</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">static_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">root</span> <span class="o">=</span> <span class="s">&#39;./static&#39;</span><span class="p">)</span>
+
+<span class="nd">@application.route</span><span class="p">(</span><span class="s">&#39;/aboutme&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">aboutme</span><span class="p">():</span>
+    <span class="n">read</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">article</span><span class="p">(</span><span class="s">&#39;aboutme.md&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">read</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">run</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">host</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+</pre></div>
+		
 {% endblock %}
-	

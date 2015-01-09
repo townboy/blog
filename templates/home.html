@@ -2,7 +2,7 @@
 {% block content %}
 		<ol>
 		{% for user in users %}
-			<li><a href = "article/{{user[:-3]}}"> {{user[:-3]}} </a></li>
+			<li><a href = "article/{{user[0]}}"> {{user[1]}} </a></li>
 		{% endfor %}
 		</ol>
 {% endblock %}

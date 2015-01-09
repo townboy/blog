@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "搬新家了"
-date:   2014-04-27 21:00:00
+title: 搬新家了
+date: 2014-04-27 21:00
 categories: life
 ---
 

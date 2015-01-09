@@ -1,4 +1,6 @@
 {% extends "templates/base.html" %}
 {% block content %}
- {{ article_content }}
+	<h2>{{title}}</h2>
+	<h4 class="pub_date silver">{{pub_time}}</h4>
+	{{ article_content }}
 {% endblock %}

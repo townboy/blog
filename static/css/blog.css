@@ -109,7 +109,8 @@ p code, li>code {
 }
 
 /* highlight */
-.highlight pre {
+/*.highlight pre { */
+.codehilite pre {
     background: #002B36;
     color: black;
 }
