@@ -13,6 +13,7 @@ import settings
 import os
 
 import article
+from paste import httpserver
 
 application = Bottle()
 debug(True)
@@ -48,4 +49,4 @@ def aboutme():
     return read.read()
 
 if __name__ == '__main__':
-    run(application, host = settings.host, port = settings.port)
+    httpserver.serve(application, host = settings.host, port = settings.port)
