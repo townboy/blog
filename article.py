@@ -10,11 +10,10 @@ import StringIO
 class article(object):
     def __init__(self, filename):
         self.filename = filename
-        print filename
     
     def read(self):
         content = StringIO.StringIO()
-        markdown.markdownFromFile(input = 'article/' + self.filename, \
+        markdown.markdownFromFile(input = self.filename, \
                                    output = content, \
                                    extensions = ['codehilite'])
         return jinja2_template('templates/article.html', \
@@ -23,14 +22,14 @@ class article(object):
                                title = self.read_title(), \
                                pub_time = self.read_time())
     def read_title(self):
-        f = open('article/' + self.filename)
+        f = open(self.filename)
         f.readline()
         f.readline() 
         title = f.readline().decode('utf-8')[6:]
         return title[1 : -1]
 
     def read_time(self):
-        f = open('article/' + self.filename)
+        f = open(self.filename)
         f.readline()
         f.readline()
         f.readline()
@@ -38,6 +37,6 @@ class article(object):
         
 
 if __name__ == '__main__':
-    read = article('2014-12-10-test.md')
+    read = article('./article/2014-12-10-test.md')
     print read.read()
     print read.read_title()

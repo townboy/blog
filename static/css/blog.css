@@ -1,6 +1,6 @@
 /* resets taken from skeleton */
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, ol, ul, li, table, tbody, tfoot, thead, tr, th, td, article, canvas, footer, header, nav, section, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
-article, footer, header, nav, section { display: block; opacity:0.85;}
+article, footer, header, nav, section, aside{ display: block; opacity:0.85;}
 body { line-height: 1; }
 ol, ul { list-style: none; }
 table { border-collapse: collapse; border-spacing: 0; }
@@ -12,6 +12,7 @@ body {
     font-size: 14px/160%;
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
+	width: 900px;
 }
 h1, h2, h3, h4 {
     color: #181818;
@@ -38,11 +39,11 @@ p a, p a:visited { line-height:line inherit; }
 ul, ol { margin-bottom: 15; }
 ol { list-style: decimal; margin-left: 30px; }
 li { line-height: 18px; margin-bottom: 12px; }
-ul li { margin-left: 15px; }
+ul li { margin-left: 15px;}
 
 /* set page width by device and orientation. */
 /* normal: width = 600 + 2*padding */
-body { width: 620px; margin: 0 auto; padding: 0; }
+body { margin: 0 auto; padding: 0; }
 /* iPhone4 portrait */
 @media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
     body {width: 320px;}
@@ -79,10 +80,32 @@ body {
 	background-position:center;
 	background-color: #483D8B;
 	} /* taken from http://subtlepatterns.com/, great site. */
-nav, article{ box-shadow:0px 0px 6px 1px rgba(187, 187, 187, 0.7); background: #fff; margin-bottom: 30px; }
-nav { border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; padding: 5px 10px; }
+nav, article, aside{ box-shadow:0px 0px 6px 1px rgba(187, 187, 187, 0.7); background: #fff; margin-bottom: 30px; }
+nav { border-bottom-right-radius: 10px; 
+	border-bottom-left-radius: 10px; 
+	padding: 5px 10px; 
+	color:#FFFFFF;
+	width:100%;
+	}
+
 nav a{ line-height: 170%;}
-article { border-radius: 10px; padding: 10px; }
+
+nav a:hover, nav:active {
+	list-style-type:none;
+	background-color:#8B7D7B;
+	color:#FFFFFF;
+}
+article{ border-radius: 10px; padding: 10px;
+		width:75%;
+		float:left;
+ }
+
+aside {
+	padding: 10px;
+	width: 20%;
+	float : right;
+	border-radius:10px;
+}
 
 /* page elements */
 p { line-height: 170%; }
@@ -94,6 +117,7 @@ pre {
     overflow:auto;
     overflow-scrolling: touch;
 }
+
 p code, li>code {
     background-color:#EEEEFF;
     border:1px solid #DDDDDD;
