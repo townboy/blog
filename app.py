@@ -1,4 +1,4 @@
-#! /usr/bin/evn python
+#! /usr/bin/env python
 # -*- coding:utf-8 -*-
 from bottle import run,\
      route,\
@@ -6,13 +6,14 @@ from bottle import run,\
      debug,\
      jinja2_template,\
      static_file,\
-     error
+     error,\
+     request
 import sys
 import codecs
 import markdown
 import settings
 import os
-
+import ip
 import article
 from paste import httpserver
 
@@ -22,15 +23,14 @@ debug(True)
 @application.route('/')
 def index():
     art = os.listdir('./article')
-
     give = []
     for item in art:
         read = article.article('./article/' + item)
         give.append([item, read.read_title() + ' (' + read.read_time() + ')'])
-
     give = sorted(give)[::-1]
-    
-    return jinja2_template('templates/home.html', domain = settings.domain, users = give)
+    getIp = ip.ip().getIpInfo()
+    print getIp
+    return jinja2_template('templates/home.html', domain = settings.domain, users = give, ipInfo = getIp)
 
 @application.route('/test')
 def test():
@@ -40,7 +40,6 @@ def test():
 def func_article(artname):
     read = article.article('./article/' + artname)
     return read.read()
-    
    
 @application.route('/static/<filename:path>')
 def static(filename):

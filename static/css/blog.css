@@ -105,6 +105,12 @@ aside {
 	width: 20%;
 	float : right;
 	border-radius:10px;
+	background-color: #BDBDBD;
+}
+
+aside h3 {
+	background-color: #FFFFFF;
+	color :#6495ED;
 }
 
 /* page elements */

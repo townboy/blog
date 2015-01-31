@@ -6,6 +6,7 @@ import markdown
 from bottle import jinja2_template
 import settings
 import StringIO
+import ip
 
 class article(object):
     def __init__(self, filename):
@@ -16,11 +17,14 @@ class article(object):
         markdown.markdownFromFile(input = self.filename, \
                                    output = content, \
                                    extensions = ['codehilite'])
+        
+        getIp = ip.ip().getIpInfo()
         return jinja2_template('templates/article.html', \
                                domain = settings.domain, \
                                article_content = content.getvalue().decode('utf-8'), \
                                title = self.read_title(), \
-                               pub_time = self.read_time())
+                               pub_time = self.read_time(), \
+                               ipInfo = getIp)
     def read_title(self):
         f = open(self.filename)
         f.readline()
