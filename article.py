@@ -7,6 +7,7 @@ from bottle import jinja2_template
 import settings
 import StringIO
 import ip
+import handleSta
 
 class article(object):
     def __init__(self, filename):
@@ -19,12 +20,15 @@ class article(object):
                                    extensions = ['codehilite'])
         
         getIp = ip.ip().getIpInfo()
+        instance = handleSta.handleSta()
+        instance.read()
         return jinja2_template('templates/article.html', \
                                domain = settings.domain, \
                                article_content = content.getvalue().decode('utf-8'), \
                                title = self.read_title(), \
                                pub_time = self.read_time(), \
-                               ipInfo = getIp)
+                               ipInfo = getIp, \
+                               pv = instance.getValue('pv', 0))
     def read_title(self):
         f = open(self.filename)
         f.readline()

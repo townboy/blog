@@ -4,27 +4,31 @@
 import json
 import random
 import string
+import os
 
 class handleSta(object):
 
-    shared = None
-    
     def __init__(self):
-        print string.ascii_letters
-        print ''.join(random.sample(string.ascii_letters + string.digits, 8) )
+        self.name = ''.join(random.sample(string.ascii_letters + string.digits, 8) )
+        self.filename = 'statistics'
     
-    @classmethod
-    def getInstance(self):
-        if None == handleSta.shared:
-            handleSta.shared = handleSta()
-        return handleSta.shared
+    def read(self):
+        self.newdict = json.load(open(self.filename))
 
-    def read(self, key, default):
-        pass
-    
-    def get(self, key, default):
-        pass
+    def getValue(self, key, default):
+        return self.newdict.get(key, default)
 
+    def setValue(self, key, value):
+        self.newdict[key] = value
 
+    def write(self):
+        fd = open(self.name, 'w')
+        fd.write(json.dumps(self.newdict))
+        fd.close()
+        os.remove(self.filename)
+        os.rename(self.name, self.filename)
+     
 if __name__ == '__main__':
-    print handleSta.getInstance()
+    run = handleSta()
+    run.read()
+    run.write()

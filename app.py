@@ -16,6 +16,7 @@ import os
 import ip
 import article
 from paste import httpserver
+import handleSta
 
 application = Bottle()
 debug(True)
@@ -24,13 +25,22 @@ debug(True)
 def index():
     art = os.listdir('./article')
     give = []
+
+    instance = handleSta.handleSta()
+    instance.read()
+    
     for item in art:
-        read = article.article('./article/' + item)
-        give.append([item, read.read_title() + ' (' + read.read_time() + ')'])
+        path = './article/' + item
+        read = article.article(path)
+        instance.setValue(item, instance.getValue(item, 0) )
+        give.append([item, read.read_title() + ' (' + read.read_time() + u'浏览  ' + str(instance.getValue(item, 0)) + ')'])
     give = sorted(give)[::-1]
     getIp = ip.ip().getIpInfo()
-    print getIp
-    return jinja2_template('templates/home.html', domain = settings.domain, users = give, ipInfo = getIp)
+
+    instance.setValue('pv', instance.getValue('pv', 0) + 1)
+    
+    instance.write()
+    return jinja2_template('templates/home.html', domain = settings.domain, users = give, ipInfo = getIp, pv = instance.getValue('pv', 0))
 
 @application.route('/test')
 def test():
@@ -38,6 +48,12 @@ def test():
 
 @application.route('/article/<artname>')
 def func_article(artname):
+    instance = handleSta.handleSta()
+    instance.read()
+    instance.setValue(artname, instance.getValue(artname, 0) + 1)
+    instance.setValue('pv', instance.getValue('pv', 0) + 1)
+    instance.write()
+    
     read = article.article('./article/' + artname)
     return read.read()
    

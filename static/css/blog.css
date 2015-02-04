@@ -108,7 +108,7 @@ aside {
 	background-color: #BDBDBD;
 }
 
-aside h3 {
+aside h3, h4 {
 	background-color: #FFFFFF;
 	color :#6495ED;
 }
